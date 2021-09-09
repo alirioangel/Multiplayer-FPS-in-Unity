@@ -7,9 +7,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
+    [SerializeField] private float lookSensitivity = 3f;
     private PlayerMotor _motor;
-    private string Horizontal = "Horizontal";
-    private string Vertical = "Vertical";
+    private const string Horizontal = "Horizontal";
+    private const string Vertical = "Vertical";
+    private const string MouseX = "Mouse X";
+    private const string MouseY = "Mouse Y";
 
     private void Start()
     {
@@ -19,18 +22,35 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         // Calculate our movement velocity as a 3D vector
-        float xMovement = Input.GetAxisRaw(Horizontal);
-        float zMovement = Input.GetAxisRaw(Vertical);
+        var xMovement = Input.GetAxisRaw(Horizontal);
+        var zMovement = Input.GetAxisRaw(Vertical);
 
-        Vector3 movHorizontal = transform.right * xMovement; // (1,0,0) OR (-1,0,0)
-        Vector3 movVertical = transform.forward * zMovement; // (0,0,1) OR (0,0,-1)
+        var movHorizontal = transform.right * xMovement; // (1,0,0) OR (-1,0,0)
+        var movVertical = transform.forward * zMovement; // (0,0,1) OR (0,0,-1)
 
         // Normalized means that total lenght is 1 no matter what.
         // final movement Vector3
-        Vector3 velocity = (movHorizontal + movVertical).normalized * speed;
+        var velocity = (movHorizontal + movVertical).normalized * speed;
         
         // Apply Movement
-        // _motor.Move(velocity);
+        _motor.Move(velocity);
+        
+        // Calculate rotation as a 3D vector (turning around)
+        var yRotation = Input.GetAxisRaw(MouseX);
+
+        var rotation = new Vector3(0f, yRotation, 0f) * lookSensitivity;
+        
+        // Apply rotation
+        _motor.Rotate(rotation);
+        
+        
+        // Calculate Camera rotation as a 3D vector (turning around)
+        var xRotation = Input.GetAxisRaw(MouseY);
+
+        var cameraRotation = new Vector3(xRotation, 0f , 0f) * lookSensitivity;
+        
+        // Apply rotation
+        _motor.RotateCamera(cameraRotation);
 
     }
 }
