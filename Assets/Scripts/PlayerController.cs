@@ -9,7 +9,9 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
     [SerializeField] private float lookSensitivity = 3f;
-    [SerializeField] private float _thrusterForce = 1000f;
+
+    [SerializeField] private float _thrusterForce = 10f;
+
 
     [Header("Spring Settings")] 
     [SerializeField] private float _jointSpring = 7f;
@@ -81,8 +83,8 @@ public class PlayerController : MonoBehaviour
 
     private void SetJoinSettings(float jointSpring)
     {
-        _joint.connectedAnchor = new Vector3(0f, 1.3f, 0f);
-        _joint.targetPosition = new Vector3(0f, -0.1f, 0f);
+
+        _joint.projectionMode = JointProjectionMode.PositionAndRotation;
         _joint.yDrive = new JointDrive
         {
             positionDamper = _jointDamper, 

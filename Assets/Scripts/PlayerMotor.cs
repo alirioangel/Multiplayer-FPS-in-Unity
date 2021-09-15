@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -75,7 +76,8 @@ public class PlayerMotor : MonoBehaviour
 
       if (_thrusterForce != Vector3.zero)
       {
-         _rigidbody.AddForce(_thrusterForce* Time.fixedDeltaTime, ForceMode.Acceleration);
+         _rigidbody.AddForce(_thrusterForce, ForceMode.Acceleration);
+
       }
       
    }
@@ -101,3 +103,4 @@ public class PlayerMotor : MonoBehaviour
    }
 
 }
+
