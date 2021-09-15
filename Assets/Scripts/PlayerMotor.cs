@@ -77,6 +77,7 @@ public class PlayerMotor : MonoBehaviour
       if (_thrusterForce != Vector3.zero)
       {
          _rigidbody.AddForce(_thrusterForce, ForceMode.Acceleration);
+
       }
       
    }
@@ -102,3 +103,4 @@ public class PlayerMotor : MonoBehaviour
    }
 
 }
+

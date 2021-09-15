@@ -343,7 +343,9 @@ MonoBehaviour:
   m_MovementThreshold: 0.001
   m_InterpolateRotation: 0.3
   m_InterpolateMovement: 0
+
 --- !u!153 &-7055410294392788918
+
 ConfigurableJoint:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -353,6 +355,7 @@ ConfigurableJoint:
   m_ConnectedBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
+
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 5, y: 1, z: 5}
   serializedVersion: 2
