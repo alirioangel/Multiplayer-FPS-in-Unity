@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,13 @@ public class PlayerMotor : MonoBehaviour
 {
    private Vector3 _velocity = Vector3.zero;
    private Vector3 _rotation = Vector3.zero;
-   private Vector3 _rotationCamera = Vector3.zero;
+   private float _rotationCameraX = 0f;
+   private float _currentCameraRotation = 0f;
+   private Vector3 _thrusterForce = Vector3.zero;
 
-   [SerializeField]
-   private Camera camera;
+   [SerializeField] private Camera camera;
+   [SerializeField] private float cameraRotationLimit = 85f;
+  
    private Rigidbody _rigidbody;
 
    private void Start()
@@ -39,9 +43,15 @@ public class PlayerMotor : MonoBehaviour
    /**
     * @Param rotationCamera - Gets a rotation camera vector3
     */
-   public void RotateCamera(Vector3 rotationCamera)
+   public void RotateCamera(float rotationCameraX)
    {
-      _rotationCamera = rotationCamera;
+      _rotationCameraX = rotationCameraX;
+   }
+   
+   
+   public void ApplyThruster(Vector3 thrusterForce)
+   {
+      _thrusterForce = thrusterForce;
    }
    
 
@@ -63,6 +73,12 @@ public class PlayerMotor : MonoBehaviour
           */
          _rigidbody.MovePosition(_rigidbody.position + _velocity * Time.fixedDeltaTime);
       }
+
+      if (_thrusterForce != Vector3.zero)
+      {
+         _rigidbody.AddForce(_thrusterForce, ForceMode.Acceleration);
+      }
+      
    }
 
    private void PerformRotation()
@@ -75,7 +91,14 @@ public class PlayerMotor : MonoBehaviour
 
       if (camera != null)
       {
-         camera.transform.Rotate(-_rotationCamera);
+         // Set our Rotation and Clamp it
+         _currentCameraRotation -= _rotationCameraX;
+         _currentCameraRotation = Mathf.Clamp(_currentCameraRotation,
+            -cameraRotationLimit, cameraRotationLimit);
+            
+         // Apply our rotation to the transform of our camera.
+         camera.transform.localEulerAngles = new Vector3(_currentCameraRotation, 0f, 0f);
       }
    }
+
 }
